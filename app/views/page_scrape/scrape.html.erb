@@ -1,3 +1,4 @@
+<% total_time = 0 %>
 <%= @category %>
  <table style="width:100%" class="table table-bordered table-striped">
   <tr>
@@ -13,7 +14,12 @@
     <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image 
     img').attr('data-src')%>
     <% link = item.at('.product-tuple-image a') %>
+
+    <% start_time = Time.now%>
     <% new_page = @agent.click(link) %>
+    <% end_time = Time.now %>
+    <% total_time += end_time - start_time%>
+
     <tr>
 	    <td><%= image_tag(image_url)%></td>
 	    <td><%= item.css('.product-title').text %></td>
@@ -24,4 +30,6 @@
 	    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
    </tr>
   <% end %>
-</table> 
+</table>
+<!-- below line is called to update crwal time by add total time which represent time spent on crwaling each link of item-->
+<% @metadatum.update_crawl_time(total_time)%>
