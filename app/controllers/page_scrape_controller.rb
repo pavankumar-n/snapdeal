@@ -1,7 +1,9 @@
 class PageScrapeController < ApplicationController
+
 	def dashboard
 		
 	end
+	
 	def scrape
 		url = params[:url]
 		@agent = Mechanize.new
