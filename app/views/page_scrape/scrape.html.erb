@@ -1,0 +1,27 @@
+<%= @category %>
+ <table style="width:100%">
+  <tr>
+    <th>Image</th>
+    <th>Name/Model</th>
+    <th>Original Price</th>
+    <th>Dicounted Price</th>
+    <th>Dicount</th>
+    <th>EMI/month</th>
+    <th>Color</th>
+  </tr>
+  <% @items.each do |item|%>
+    <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image 
+    img').attr('data-src')%>
+    <% link = item.at('.product-tuple-image a') %>
+    <% new_page = @agent.click(link) %>
+    <tr>
+	    <td><%= image_tag(image_url)%></td>
+	    <td><%= item.css('.product-title').text %></td>
+	    <td><%= item.css('.strike').text %></td>
+	    <td><%= item.css('.product-price').text %></td>
+	    <td><%= item.css('.product-discount span').text %></td>
+	    <td><%= new_page.css('.emi-price').text%> </td>
+	    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
+   </tr>
+  <% end %>
+</table> 

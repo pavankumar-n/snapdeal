@@ -1,0 +1,2 @@
+module PageScrapeHelper
+end

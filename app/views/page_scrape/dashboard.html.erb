@@ -1,0 +1,6 @@
+<h2>Your Dashboard</h2>
+<%= form_tag('/page_scrape/scrape', method: "post") do %>
+  <%= label_tag(:url, "Enter the Url")%> 
+	<%= text_field_tag(:url)%>
+	<%= submit_tag("Submit") %>
+<%end%>
