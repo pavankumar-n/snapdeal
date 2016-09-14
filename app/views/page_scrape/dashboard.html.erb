@@ -1,4 +1,27 @@
-<h2>Your Dashboard</h2>
+<h2><%= current_user.name.capitalize %>'s Dashboard</h2>
+<h3>Previous Crawls</h3>
+ <table style="width:100%" class="table table-bordered table-striped">
+  <tr>
+    <th>Crawl Time(secs)</th>
+    <th>No of records Crawled</th>
+    <th colspan="2">URL</th>
+  </tr>
+  <% @metadata.each do |metadatum| %>
+  	<tr>
+  	  <td><%= metadatum.crawl_time %></td>
+  	  <td><%= metadatum.records_crawled %></td>
+  	  <td><%= metadatum.url %></td>
+  	  <td>
+  	  	<%= form_tag('/page_scrape/scrape', method: "post") do %>
+	        <%= text_field_tag('url', "#{metadatum.url}", hidden: true)%>
+	        <%= submit_tag("Try Again") %>
+        <%end%>
+  	  </td>
+    </tr>
+  <%end%>
+  </table>
+
+<h3>New Crawl</h3>
 <%= form_tag('/page_scrape/scrape', method: "post") do %>
   <%= label_tag(:url, "Enter the Url")%> 
 	<%= text_field_tag(:url)%>

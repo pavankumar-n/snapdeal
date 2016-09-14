@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root to: 'page_scrape#dashboard'
   post 'page_scrape/scrape', to: 'page_scrape#scrape'
   # The priority is based upon order of creation: first created -> highest priority.
