@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { omniauth_callbacks: "omniauth_callbacks" }
   root to: 'page_scrape#dashboard'
   post 'page_scrape/scrape', to: 'page_scrape#scrape'
   # The priority is based upon order of creation: first created -> highest priority.
