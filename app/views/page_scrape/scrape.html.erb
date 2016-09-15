@@ -1,15 +1,18 @@
 <% total_time = 0 %>
 <%= @category %>
  <table style="width:100%" class="table table-bordered table-striped">
-  <tr>
-    <th>Image</th>
-    <th>Name/Model</th>
-    <th>Original Price</th>
-    <th>Dicounted Price</th>
-    <th>Dicount</th>
-    <th>EMI/month</th>
-    <th>Color</th>
-  </tr>
+ <thead>
+ 	  <tr>
+	    <th>Image</th>
+	    <th>Name/Model</th>
+	    <th>Original Price</th>
+	    <th>Dicounted Price</th>
+	    <th>Dicount %</th>
+	    <th>EMI/month</th>
+	    <th>Color</th>
+    </tr>
+ </thead>
+ <tbody>
   <% @items.each do |item|%>
     <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image 
     img').attr('data-src')%>
@@ -23,13 +26,20 @@
     <tr>
 	    <td><%= image_tag(image_url)%></td>
 	    <td><%= item.css('.product-title').text %></td>
-	    <td><%= item.css('.strike').text %></td>
-	    <td><%= item.css('.product-price').text %></td>
-	    <td><%= item.css('.product-discount span').text %></td>
-	    <td><%= new_page.css('.emi-price').text%> </td>
+	    <td><%= not_nil item.css('.strike').text %></td>
+	    <td><%#= (item.css('.product-price').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %> 
+	    	<%= not_nil item.css('.product-price').text %>
+	    </td>
+	    <td><%#= (item.css('.product-discount span').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %>
+	      <%= not_nil item.css('.product-discount span').text %>
+	    </td>
+	    <td><%#= (new_page.css('.emi-price').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %> 
+	      <%= not_nil new_page.css('.emi-price').text %>
+	    </td>
 	    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
    </tr>
   <% end %>
+ </tbody>
 </table>
 <!-- below line is called to update crwal time by add total time which represent time spent on crwaling each link of item-->
 <% @metadatum.update_crawl_time(total_time)%>
