@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root to: 'page_scrape#dashboard'
   post 'page_scrape/scrape', to: 'page_scrape#scrape'
   post 'page_scrape/download_csv', to: 'page_scrape#download_csv', as: :download_csv
+  #!!!!!!!!!important this should be the last root!!!!!!!!
+  get '*path' => redirect('/')
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
