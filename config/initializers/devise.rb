@@ -249,7 +249,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :google_oauth2, '571658262603-0qv50gv661qfita4cihqlbm3i8f1skso.apps.googleusercontent.com', 
-                            'vg1ufobImOxFjUFJcp8Hlu8W'
+                            'oYrb4KW8lU7KWMF8RAajzOi9'
   config.omniauth :facebook,'1829476593941619', 'f52363cd7bc4f115b7b99fb7e8ec1bf5'
 
   # ==> Warden configuration
