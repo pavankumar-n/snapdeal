@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { omniauth_callbacks: "omniauth_callbacks" }
   root to: 'page_scrape#dashboard'
   post 'page_scrape/scrape', to: 'page_scrape#scrape'
+  post 'page_scrape/download_csv', to: 'page_scrape#download_csv', as: :download_csv
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

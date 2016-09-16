@@ -1,3 +1,9 @@
+
+<%= form_tag({controller: "page_scrape", action: "download_csv",format: "csv"}, method: "post") do %>
+	<%= text_field_tag('url', @url, hidden: true)%>
+	<%= submit_tag("Download CSV") %>
+<% end %>
+
 <% total_time = 0 %>
 <%= @category %>
  <table style="width:100%" class="table table-bordered table-striped">
