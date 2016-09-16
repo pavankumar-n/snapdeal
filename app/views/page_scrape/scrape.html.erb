@@ -1,52 +1,57 @@
-
-<%= form_tag({controller: "page_scrape", action: "download_csv",format: "csv"}, method: "post") do %>
-	<%= text_field_tag('url', @url, hidden: true)%>
-	<%= submit_tag("Download CSV") %>
-<% end %>
-
+<div class = "pull-right">
+<%= link_to "Dashboard", root_path %>
+<div>
+	<%= form_tag({controller: "page_scrape", action: "download_csv",format: "csv"}, method: "post") do %>
+		<%= text_field_tag('url', @url, hidden: true)%>
+		<%= submit_tag "Download CSV", :class => "btn btn-primary btn-sm" %>
+	<% end %>
+</div>
+</div>
 <% total_time = 0 %>
-<%= @category %>
- <table style="width:100%" class="table table-bordered table-striped">
- <%= link_to "Dashboard", root_path %>
- <thead>
- 	  <tr>
-	    <th>Image</th>
-	    <th>Name/Model</th>
-	    <th>Original Price</th>
-	    <th>Dicounted Price</th>
-	    <th>Dicount %</th>
-	    <th>EMI/month</th>
-	    <th>Color</th>
-    </tr>
- </thead>
- <tbody>
-  <% @items.each do |item|%>
-    <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image 
-    img').attr('data-src')%>
-    <% link = item.at('.product-tuple-image a') %>
+<div>
+	<%= @category %>
+	 <table style="width:100%" class="table table-bordered table-striped">
+	 <thead>
+	 		<tr>
+		    <th>Image</th>
+		    <th>Name/Model</th>
+		    <th>Original Price</th>
+		    <th>Dicounted Price</th>
+		    <th>Dicount %</th>
+		    <th>EMI/month</th>
+		    <th>Color</th>
+	    </tr>
+	 </thead>
+	 <tbody>
+	  <% @items.each do |item|%>
+	    <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image
+	    img').attr('data-src')%>
+	    <% link = item.at('.product-tuple-image a') %>
 
-    <% start_time = Time.now%>
-    <% new_page = @agent.click(link) %>
-    <% end_time = Time.now %>
-    <% total_time += end_time - start_time%>
+	    <% start_time = Time.now%>
+	    <% new_page = @agent.click(link) %>
+	    <% end_time = Time.now %>
+	    <% total_time += end_time - start_time%>
 
-    <tr>
-	    <td><%= image_tag(image_url)%></td>
-	    <td><%= item.css('.product-title').text %></td>
-	    <td><%= not_nil item.css('.strike').text %></td>
-	    <td><%#= (item.css('.product-price').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %> 
-	    	<%= not_nil item.css('.product-price').text %>
-	    </td>
-	    <td><%#= (item.css('.product-discount span').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %>
-	      <%= not_nil item.css('.product-discount span').text %>
-	    </td>
-	    <td><%#= (new_page.css('.emi-price').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %> 
-	      <%= not_nil new_page.css('.emi-price').text %>
-	    </td>
-	    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
-   </tr>
-  <% end %>
- </tbody>
-</table>
+	    <tr>
+		    <td><%= image_tag(image_url)%></td>
+		    <td><%= item.css('.product-title').text %></td>
+		    <td><%= not_nil item.css('.strike').text %></td>
+		    <td><%#= (item.css('.product-price').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %> 
+		    	<%= not_nil item.css('.product-price').text %>
+		    </td>
+		    <td><%#= (item.css('.product-discount span').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %>
+		      <%= not_nil item.css('.product-discount span').text %>
+		    </td>
+		    <td><%#= (new_page.css('.emi-price').text[/[0-9]+(\,|\.)[0-9]+/]).delete(',').to_i %> 
+		      <%= not_nil new_page.css('.emi-price').text %>
+		    </td>
+		    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
+	   </tr>
+	  <% end %>
+	 </tbody>
+	</table>
+</div>
+
 <!-- below line is called to update crwal time by add total time which represent time spent on crwaling each link of item-->
 <% @metadatum.update_crawl_time(total_time)%>

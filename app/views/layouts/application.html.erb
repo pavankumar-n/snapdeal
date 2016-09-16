@@ -5,14 +5,27 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-<% if user_signed_in? %>
-  <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
-<% end %>
-<%= yield %>
-
+<div class="container-fluid">
+	<% if flash[:notice] %>
+	  <div class = "alert alert-success fade in">
+	      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	      <%= notice %>
+	  </div>
+	<% elsif flash[:alert] %>
+	  <div class = "alert alert-danger fade in">
+	      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	      <%= alert %>
+	  </div>
+	<%end%>
+	<div class="pull-right">
+		<% if user_signed_in? %>
+		  <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+		<% end %>
+	</div>
+	<%= yield %>
+</div>
 </body>
 </html>
