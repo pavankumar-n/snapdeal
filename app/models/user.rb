@@ -3,8 +3,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable, :recoverable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :rememberable, :validatable,
     :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
-	has_many :authentications
-	has_many :metadata
+  has_many :authentications, dependent: :destroy
+	has_many :metadata, dependent: :destroy
 	validates :name, presence: true
 	validates :email, uniqueness: true
 	

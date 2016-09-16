@@ -5,7 +5,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     omniauth = request.env["omniauth.auth"]
     auth = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
     if auth
-      flash[:notice] = "Welcome Back #{auth.user.username}"
+      flash[:notice] = "Welcome Back #{auth.user.name}"
       sign_in_and_redirect(:user, auth.user)
     else
       user = User.new
