@@ -7,58 +7,59 @@
 		<% end %>
 	</div>
 </div>
-<%# total_time = 0 %>
 <div>
 	<%= @category %>
 	<table style="width:100%" class="table table-bordered table-striped">
 	  <thead>
 	 		<tr>
-		    <th>Image</th>
+		    <th>Image url</th>
 		    <th>Name/Model</th>
 		    <th>Original Price</th>
 		    <th>Dicounted Price</th>
 		    <th>Dicount %</th>
 		    <th>EMI/month</th>
 		    <th>Color</th>
-	    </tr>
+		    <th>Product Link</th>
+			</tr>
 	  </thead>
 	  <tbody>
-	<% total_time = 0 %>
-	<% a = 0 %>
-	<% while true %>
-		<% begin %>
-			<% url = @url + "&start=#{a}&ajax=true" %>
-			<% start_time = Time.now %>
-			<% page = @agent.get(url) %>
-			<% end_time = Time.now %>
-			<% total_time += end_time - start_time %>
-			<% page.search('.js-tuple').each do |item| %>
-		    <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image
-		    img').attr('data-src') %>
+			<% total_time = 0 %>
+			<% a = 0 %>
+			<% while true %>
+				<% begin %>
+					<% new_url = @url + "&start=#{a}&ajax=true" %>
+					<% start_time = Time.now %>
+					<% page = @agent.get(new_url) %>
+					<% end_time = Time.now %>
+					<% total_time += end_time - start_time %>
+					<% page.search('.js-tuple').each do |item| %>
+				    <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image
+				    img').attr('data-src') %>
 
-		    <% link = item.at('.product-tuple-image a') %>
+				    <% link = item.at('.product-tuple-image a') %>
 
-		    <% link_start_time = Time.now%>
-		    <% new_page = @agent.click(link) %>
-		    <% link_end_time = Time.now %>
-		    <% total_time += link_end_time - link_start_time %>
+				    <% link_start_time = Time.now%>
+				    <% new_page = @agent.click(link) %>
+				    <% link_end_time = Time.now %>
+				    <% total_time += link_end_time - link_start_time %>
 
-		    <tr>
-			    <td><%= image_tag(image_url)%></td>
-			    <td><%= item.css('.product-title').text %></td>
-			    <td><%= not_nil item.css('.strike').text %></td>
-			    <td><%= not_nil item.css('.product-price').text %></td>
-			    <td><%= not_nil item.css('.product-discount span').text %></td>
-			    <td><%= not_nil new_page.css('.emi-price').text %></td>
-			    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
-		    </tr>
-				<% a += 1 %>
-		  <% end %>
-		<% rescue Exception => e %>
-			<% break %>
-		<%end%>
-	<% end %>
-</tbody>
+				    <tr>
+					    <td><%= image_url %></td>
+					    <td><%= item.css('.product-title').text %></td>
+					    <td><%= not_nil item.css('.strike').text %></td>
+					    <td><%= not_nil item.css('.product-price').text %></td>
+					    <td><%= not_nil item.css('.product-discount span').text %></td>
+					    <td><%= not_nil new_page.css('.emi-price').text %></td>
+					    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
+					    <td><%= link[:href] %></td>
+				    </tr>
+						<% a += 1 %>
+				  <% end %>
+				<% rescue Exception => e %>
+					<% break %>
+				<%end%>
+			<% end %>
+		</tbody>
 	</table>
 </div>
 
