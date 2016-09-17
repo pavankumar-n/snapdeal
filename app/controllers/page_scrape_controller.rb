@@ -11,7 +11,7 @@ class PageScrapeController < ApplicationController
 			start_time = Time.now
 	    page = @agent.get(@url)
 	    @category = page.css('.category-name').text.gsub(/\s+/, " ")
-	    @items = page.search('.js-tuple')
+	    #@items = page.search('.js-tuple')
 	    end_time = Time.now
 	    crawl_time = (end_time - start_time)
 	    # this is commented bcoz it creates new record even if same url is again submiited 
@@ -22,7 +22,8 @@ class PageScrapeController < ApplicationController
 	    # metadatum.save!
 
 	    #to avoid creating new record is same url is submitted.
-	    current_user.metadata.find_or_initialize_by(:url => @url).update_attributes!(:records_crawled => @items.count, :crawl_time => crawl_time)	
+	    #current_user.metadata.find_or_initialize_by(:url => @url).update_attributes!(:records_crawled => @items.count, :crawl_time => crawl_time)
+	    current_user.metadata.find_or_initialize_by(:url => @url).update_attributes!(:records_crawled => 0, :crawl_time => crawl_time)	
 		  @metadatum = current_user.metadata.find_by(:url => @url)
 		else
 			flash[:notice] = "Please provide a URL"
