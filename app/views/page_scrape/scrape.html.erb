@@ -23,7 +23,7 @@
 			</tr>
 	  </thead>
 	  <tbody>
-			<% total_time = 0 %>
+			<%# total_time = 0 %>
 			<% a = 0 %>
 			<% while true %>
 				<% begin %>
@@ -31,7 +31,7 @@
 					<% start_time = Time.now %>
 					<% page = @agent.get(new_url) %>
 					<% end_time = Time.now %>
-					<% total_time += end_time - start_time %>
+					<% @crawl_time += (end_time - start_time) %>
 					<% page.search('.js-tuple').each do |item| %>
 				    <% image_url = item.css('.product-image img').attr('src') || item.css('.product-image
 				    img').attr('data-src') %>
@@ -41,7 +41,7 @@
 				    <% link_start_time = Time.now%>
 				    <% new_page = @agent.click(link) %>
 				    <% link_end_time = Time.now %>
-				    <% total_time += link_end_time - link_start_time %>
+				    <% @crawl_time += (link_end_time - link_start_time) %>
 
 				    <tr>
 					    <td><%= image_url %></td>
@@ -63,4 +63,4 @@
 	</table>
 </div>
 
-<% @metadatum.update_crawl_time(total_time, a)%>
+<% @metadatum.update_crawl_time_and_records_crawled(@crawl_time, a)%>

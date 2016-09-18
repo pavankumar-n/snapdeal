@@ -11,10 +11,11 @@ class PageScrapeController < ApplicationController
 	    start_time = Time.now
 	    page = @agent.get(@url)
 	    end_time = Time.now
-	    crawl_time = (end_time - start_time)
+	    @crawl_time = (end_time - start_time)
 	    @category = page.css('.category-name').text.gsub(/\s+/, " ")
 	    #to avoid creating new record is same url is submitted.
-	    current_user.metadata.find_or_initialize_by(:url => @url).update_attributes!(:records_crawled => 0, :crawl_time => crawl_time)
+	    #current_user.metadata.find_or_initialize_by(:url => @url).update_attributes!(:records_crawled => 0, :crawl_time => crawl_time)
+	    current_user.metadata.find_or_create_by(:url => @url)
 	    @metadatum = current_user.metadata.find_by(:url => @url)
 	  else
 	    flash[:alert] = "Please provide a URL"
