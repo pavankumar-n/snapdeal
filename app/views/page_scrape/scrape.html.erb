@@ -20,6 +20,9 @@
 		    <th>EMI/month</th>
 		    <th>Color</th>
 		    <th>Product Link</th>
+		    <th>Total Ratings</th>
+		    <th>Average Rating</th>
+		    <th>Offer</th>
 			</tr>
 	  </thead>
 	  <tbody>
@@ -51,6 +54,9 @@
 					    <td><%= not_nil new_page.css('.emi-price').text %></td>
 					    <td><%= new_page.css('.attr-selected .ellipses-cls').text %></td>
 					    <td><%= link[:href] %></td>
+					    <td><%= (item.css('.product-rating-count').text[/[0-9]+/]).to_i %></td>
+					    <td><%= (new_page.css('.avrg-rating').text[/[0-9]\.?[0-9]/]).to_f %></td>
+					    <td><%= offer_available new_page.css('.freebieNotPresentClass').text.strip %></td>
 				    </tr>
 						<% a += 1 %>
 				  <% end %>

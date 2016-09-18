@@ -13,5 +13,13 @@ module PageScrapeHelper
 			pluralize(min.round(2), "minute")
 		end
 	end
+
+	def offer_available(offer)
+		if offer.blank?
+			"N/A"
+		else
+			offer
+		end
+	end
 end
 

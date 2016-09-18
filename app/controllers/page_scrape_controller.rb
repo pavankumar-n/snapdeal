@@ -49,7 +49,7 @@ class PageScrapeController < ApplicationController
 
 	def to_csv(url, agent)
 		CSV.generate(headers: true) do |csv|
-			csv << %w{Image Name/Model Original_Price Dicounted_Price Dicount% EMI/month Color Product_Link}
+			csv << %w{Image Name/Model Original_Price Dicounted_Price Dicount% EMI/month Color Product_Link Total_ratings Average_rating Offer}
 			some_method(url, agent, csv)
 		end
 	end
@@ -73,6 +73,9 @@ class PageScrapeController < ApplicationController
 					values << new_page.css('.emi-price').text
 					values << new_page.css('.attr-selected .ellipses-cls').text
 					values << link[:href]
+					values << item.css('.product-rating-count').text[/[0-9]+/]
+					values << new_page.css('.avrg-rating').text[/[0-9]\.?[0-9]/]
+					values << new_page.css('.freebieNotPresentClass').text.strip
 					a += 1
 					csv << values
 				end
