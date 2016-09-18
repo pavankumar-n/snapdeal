@@ -23,6 +23,22 @@ class PageScrapeController < ApplicationController
 	  end
 	end
 
+	def destroy_record
+		@metadatum = current_user.metadata.find_by(id: params[:id])
+		if @metadatum
+			if @metadatum.destroy
+				flash[:notice] = "Record was Deleted"
+				redirect_to root_url
+			else
+				flash[:alert] = "Something went wrong!"
+				redirect_to root_url
+			end
+		else
+			flash[:alert] = "Something went wrong!"
+			redirect_to root_url
+		end
+	end
+
 	def download_csv
 		url = params[:url]
 		agent = Mechanize.new

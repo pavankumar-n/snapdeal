@@ -3,20 +3,23 @@
   <h3>Previous Crawls</h3>
    <table style="width:100%" class="table table-bordered table-striped">
     <tr>
-      <th>Crawl Time(secs)</th>
+      <th>Crawl Time</th>
       <th>No of records Crawled</th>
       <th colspan="2">URL</th>
     </tr>
     <% @metadata.each do |metadatum| %>
       <tr>
-        <td><%= metadatum.crawl_time.round(2) %></td>
+        <td><%= secs_or_minutes metadatum.crawl_time.round(2) %></td>
         <td><%= metadatum.records_crawled %></td>
         <td><%= metadatum.url %></td>
         <td>
           <%= form_tag('/page_scrape/scrape', method: "post") do %>
             <%= text_field_tag('url', "#{metadatum.url}", hidden: true)%>
             <%= submit_tag "Try Again", :class => "btn btn-primary btn-sm" %>
-          <%end%>
+          <%end%><br />
+          <%= link_to "Delete", delete_metadatum_path(metadatum),
+            class: "btn btn-danger btn-xs glyphicon glyphicon-trash", method: :delete,
+            data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <%end%>
