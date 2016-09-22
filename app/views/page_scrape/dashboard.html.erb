@@ -9,7 +9,7 @@
     </tr>
     <% @metadata.each do |metadatum| %>
       <tr>
-        <td><%= secs_or_minutes metadatum.crawl_time.round(2) %></td>
+        <td><%= secs_or_minutes metadatum.crawl_time.round(2) if metadatum.crawl_time %></td>
         <td><%= metadatum.records_crawled %></td>
         <td><%= metadatum.url %></td>
         <td>

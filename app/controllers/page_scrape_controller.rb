@@ -7,6 +7,7 @@ class PageScrapeController < ApplicationController
 	def scrape
 	  if params[:url].present?
 	    @url = params[:url]
+	    @url.sub!(/\#.*/, '')
 	    @agent = Mechanize.new
 	    start_time = Time.now
 	    page = @agent.get(@url)
